@@ -1,6 +1,83 @@
-# IIIT-MIDAS-task
+# IIIT-MIDAS Task
 
-This task was done with tensorflow.keras framework.
+This project focuses on text classification using deep learning techniques implemented with the tensorflow.keras framework. The primary objective is to classify products based on their textual descriptions into appropriate product categories.
+
+## Dataset and Preprocessing
+
+- The dataset was imported and converted into a Pandas DataFrame.
+- Non-relevant columns that did not contribute to the prediction of product_category_tree were dropped.
+- The product_category_tree column was processed:
+    - Split using the delimiter >>.
+    - Unnecessary characters were stripped.
+    - Categories with fewer than 100 samples were removed due to insufficient data.
+    - Categories were integer-encoded and subsequently one-hot encoded.
+- The description column was processed:
+    - Punctuation was removed.
+    - Tokenization was performed using Keras Tokenizer.
+    - Sentences were converted into sequences of integers.
+    - Sequences were padded to a uniform length based on the maximum sequence length in the dataset.
+
+## Data Splitting
+
+- As there was no predefined test set, the dataset was split using train_test_split:
+    - 80% training, 20% test.
+    - The training set was further split into 80% training and 20% validation.
+
+## Model Architecture
+
+- The neural network comprises the following layers:
+    - **Embedding Layer**: Generates word embeddings for the input sequences.
+    - **GlobalMaxPooling**: Reduces dimensionality by selecting the maximum value for each feature map.
+    - **Fully Connected Dense Layers**:
+        - Converts 2D matrix into a 1D representation.
+        - Two additional dense layers for feature extraction.
+        - The final dense layer uses softmax activation for multi-class classification.
+    - **Optimizer & Loss Function**: 
+        - Adam optimizer.
+        - Categorical Cross-Entropy loss function.
+
+## Training and Evaluation
+
+- **Callbacks Used**:
+    - EarlyStopping: Monitors validation loss to prevent overfitting.
+    - ModelCheckpoint: Saves the best model weights.
+- The model was trained on the training set and validated using the validation set.
+- Predictions were generated and evaluated using argmax to determine the highest probability category.
+- The model achieved an **average accuracy of ~96%**.
+- Due to class imbalance, per-category accuracy was computed to assess performance across different classes.
+
+## Results and Improvements
+
+- The model performed well on majority classes but struggled with underrepresented categories.
+- **Improvements to consider**:
+    - Utilizing pre-trained word embeddings such as GloVe or Word2Vec to enhance semantic understanding.
+    - Implementing K-Fold Cross-Validation to better generalize across different dataset splits.
+
+## Future Enhancements
+
+- Experimenting with transformer-based architectures like **BERT** for improved contextual understanding.
+- Implementing data augmentation techniques for underrepresented categories.
+- Fine-tuning hyperparameters for better performance.
+
+## Requirements
+
+To run this project, install the following dependencies:
+
+```bash
+   pip install tensorflow pandas numpy scikit-learn
+```
+
+## Usage
+
+- Run the Jupyter Notebook
+- Modify hyperparameters and dataset processing as needed to fine-tune performance.
+
+
+
+
+
+
+<!-- This project aims to build a machine learning model for paraphrase detection. Paraphrase detection is the task of determining whether two given sentences convey the same meaning. The model is trained and evaluated on a dataset consisting of pairs of sentences labeled as paraphrases or non-paraphrases.
 
 #Data Preprocessing
 
@@ -25,7 +102,7 @@ The values were predicted and the resultant values were numpy array with 18 elem
 
 To improve the accuracy of the model,I would use a pre trained word embeddings like Glove or Word2vec and then use those embeddings with the keras embedding layer.
 
-I would also use kfold cross validation to improve the accuracy.
+I would also use kfold cross validation to improve the accuracy. -->
 
 
 
